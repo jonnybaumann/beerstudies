@@ -1,0 +1,45 @@
+:host {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+header {
+  display: grid;
+  span {
+    cursor: pointer;
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.logo {
+  padding-top: 0.5rem;
+  height: 100%;
+  width: auto;
+}
+
+main {
+  display: grid;
+  padding: 1rem;
+}
+
+.content {
+  justify-self: center;
+  justify-content: center;
+  max-width: 960px;
+  width: 100%;
+  hyphens: auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  mat-icon.github {
+    fill: #fff;
+  }
+}
+
+mat-icon.toolbar-icon {
+  height: 24px;
+}
