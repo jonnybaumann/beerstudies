@@ -1,16 +1,16 @@
-import { Routes } from '@angular/router';
-import { Layout } from './layout/layout';
+import { inject } from '@angular/core'
+import { ResolveFn, Routes } from '@angular/router'
+import { User } from '@supabase/supabase-js'
+import { Supabase } from './core/supabase/supabase'
+import { authGuard, guestGuard } from './core/auth-guard/auth.guard'
+
+const userResolver: ResolveFn<User | null> = () => inject(Supabase).getUser()
 
 export const routes: Routes = [
-  {
-    path: '',
-    loadComponent: () => import('./layout/layout').then((m) => m.Layout),
-    children: [
-      {path:'', pathMatch: 'full', redirectTo: 'home'},
-      {
-        path: 'home',
-        loadComponent: () => import('./components/home/home').then((m) => m.Home),
-      },
-    ]
-  }
-];
+  { path: 'login', canActivate: [guestGuard],
+    loadComponent: () => import('./auth/login').then(m => m.Login) },
+  { path: 'account', canActivate: [authGuard], resolve: { user: userResolver },
+    loadComponent: () => import('./account/account').then(m => m.Account) },
+  { path: '', pathMatch: 'full', redirectTo: 'account' },
+  { path: '**', redirectTo: 'account' },
+]
